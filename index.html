@@ -5,100 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadow Projects</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, sans-serif; 
-            padding: 20px; 
-            background-color: #0d1117; /* GitHub Dark Theme Color */
-            color: #c9d1d9; 
-            text-align: center;
-        }
-        h1 { color: #58a6ff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
-        .list-container {
-            max-width: 600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* နှစ်တန်းခွဲပြမယ် */
-            gap: 15px;
-        }
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: #0d1117; color: white; text-align: center; }
+        h1 { color: #58a6ff; }
+        .list-container { max-width: 500px; margin: 20px auto; }
         .link-card { 
-            background: #161b22; 
-            padding: 20px; 
-            border-radius: 12px; 
-            border: 1px solid #30363d;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 500;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #161b22; padding: 15px; margin: 10px 0; 
+            border-radius: 8px; border: 1px solid #30363d;
+            display: block; text-decoration: none; color: #58a6ff; font-weight: bold;
         }
-        .link-card:hover { 
-            background: #1f6feb; 
-            border-color: #58a6ff;
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        @media (max-width: 480px) {
-            .list-container { grid-template-columns: 1fr; } /* ဖုန်းဆိုရင် တစ်တန်းတည်းပြမယ် */
-        }
+        .link-card:hover { background: #1f6feb; color: white; }
     </style>
 </head>
 <body>
 
     <h1>📁 My Shadow Projects</h1>
-
-    <div class="list-container" id="file-list">
-        </div>
+    <div class="list-container" id="file-list"></div>
 
     <script>
-        // သင့်ရဲ့ ဖိုင်အသစ်စာရင်းများကို ဒီမှာ အကုန်ထည့်ပေးထားပါတယ်
-        const projects = [
-            "heart",
-            "heart2",
-            "heart3",
-            "heart4",
-            "heart5",
-            "universe",
-            "universe2"
-        ];
-
+        // သင့်ရဲ့ ဖိုင်စာရင်း
+        const projects = ["heart", "heart2", "heart3", "heart4", "heart5", "universe", "universe2"];
         const container = document.getElementById('file-list');
 
         projects.forEach(name => {
             const a = document.createElement('a');
             a.className = 'link-card';
-            a.href = name + ".html"; // Link ချိတ်ခြင်း
-            
-            // စာသားကို လှလှပပ ပြင်ခြင်း (ဥပမာ- universe2 ကို Universe 2 ဟုပြမည်)
-            const displayName = name.charAt(0).toUpperCase() + name.slice(1);
-            a.textContent = displayName;
-            
+            a.href = name + ".html";
+            a.textContent = name.toUpperCase();
             container.appendChild(a);
         });
     </script>
-</body>
-</html>
-
-        loginBtn.addEventListener('click', function() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-
-            // ရိုးရှင်းတဲ့ စစ်ဆေးမှုပြုလုပ်ခြင်း
-            if (user === "" || pass === "") {
-                message.innerText = "⚠️ ကျေးဇူးပြု၍ အချက်အလက်အပြည့်အစုံဖြည့်ပါ။";
-                message.style.color = "red";
-            } else if (user === "admin" && pass === "12345") {
-                message.innerText = "✅ Login အောင်မြင်ပါသည်။";
-                message.style.color = "green";
-                // ဒီနေရာမှာ နောက် Page တစ်ခုကို လွှတ်ချင်ရင် window.location.href = "home.html"; လို့ရေးလို့ရပါတယ်။
-            } else {
-                message.innerText = "❌ အသုံးပြုသူအမည် သို့မဟုတ် လျှို့ဝှက်နံပါတ် မှားယွင်းနေပါသည်။";
-                message.style.color = "red";
-            }
-        });
-    </script>
-
 </body>
 </html>
