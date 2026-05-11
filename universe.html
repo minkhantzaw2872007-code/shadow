@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Bang Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            pointer-events: none;
+        }
+        h1 { margin: 0; font-size: 24px; color: #ffcc00; }
+        p { color: #ccc; }
+    </style>
+</head>
+<body>
+
+<div id="info">
+    <h1>The Big Bang</h1>
+    <p>Click anywhere to restart the explosion</p>
+</div>
+<canvas id="universeCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('universeCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    const colors = ['#ff3e00', '#ffbe00', '#00e5ff', '#ffffff', '#9d00ff'];
+
+    class Particle {
+        constructor(x, y, isInitial) {
+            this.x = x;
+            this.y = y;
+            // ပေါက်ကွဲထွက်မယ့် အရှိန်နဲ့ လားရာ
+            const angle = Math.random() * Math.PI * 2;
+            const force = isInitial ? (Math.random() * 15 + 5) : (Math.random() * 5);
+            
+            this.vx = Math.cos(angle) * force;
+            this.vy = Math.sin(angle) * force;
+            
+            this.radius = Math.random() * 2 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.alpha = 1;
+            this.friction = 0.98; // လေထဲမှာ တဖြည်းဖြည်း နှေးသွားအောင်
+            this.gravity = 0.02;  // ဒြပ်ဆွဲအား အနည်းငယ်
+        }
+
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        update() {
+            this.vx *= this.friction;
+            this.vy *= this.friction;
+            this.x += this.vx;
+            this.y += this.vy;
+            this.alpha -= 0.005; // တဖြည်းဖြည်း ပျောက်ကွယ်သွားခြင်း
+        }
+    }
+
+    function createBigBang(x, y) {
+        particles = [];
+        for (let i = 0; i < 500; i++) {
+            particles.push(new Particle(x, y, true));
+        }
+    }
+
+    function animate() {
+        // Motion trail effect
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p, index) => {
+            if (p.alpha > 0) {
+                p.update();
+                p.draw();
+            } else {
+                particles.splice(index, 1);
+            }
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    // စစချင်း ပေါက်ကွဲမှု ဖန်တီးခြင်း
+    createBigBang(canvas.width / 2, canvas.height / 2);
+    animate();
+
+    // Click ခေါက်ရင် အသစ်ပြန်ဖြစ်ခြင်း
+    window.addEventListener('mousedown', (e) => {
+        createBigBang(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+</script>
+
+</body>
+</html>

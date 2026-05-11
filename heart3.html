@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Heart</title>
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+}
+canvas {
+    display: block;
+}
+</style>
+</head>
+<body>
+
+<canvas id="heart"></canvas>
+
+<script>
+const canvas = document.getElementById("heart");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+
+function heartShape(t, scale){
+    return {
+        x: scale * 16 * Math.pow(Math.sin(t), 3),
+        y: -scale * (
+            13 * Math.cos(t) -
+            5 * Math.cos(2*t) -
+            2 * Math.cos(3*t) -
+            Math.cos(4*t)
+        )
+    };
+}
+
+for(let i=0;i<1500;i++){
+    let t = Math.random()*Math.PI*2;
+    let depth = Math.random()*200;
+    let p = heartShape(t, 15 + Math.random()*10);
+    particles.push({
+        x:p.x,
+        y:p.y,
+        z:depth,
+        size:Math.random()*3+1
+    });
+}
+
+let angle = 0;
+
+function draw(){
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    angle += 0.01;
+
+    for(let p of particles){
+        let x = p.x*Math.cos(angle) - p.z*Math.sin(angle)*0.2;
+        let z = p.x*Math.sin(angle)*0.2 + p.z*Math.cos(angle);
+
+        let scale = 400/(400+z);
+        let px = x*scale + canvas.width/2;
+        let py = p.y*scale + canvas.height/2;
+
+        let glow = Math.max(0.2, scale);
+
+        ctx.beginPath();
+        ctx.arc(px,py,p.size*scale,0,Math.PI*2);
+
+        ctx.fillStyle = `rgba(255,20,147,${glow})`;
+        ctx.shadowColor = "hotpink";
+        ctx.shadowBlur = 20;
+        ctx.fill();
+    }
+
+    // Filled center heart
+    ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.scale(1.5,1.5);
+
+    ctx.beginPath();
+    for(let t=0;t<Math.PI*2;t+=0.05){
+        let h = heartShape(t,8);
+        if(t===0) ctx.moveTo(h.x,h.y);
+        else ctx.lineTo(h.x,h.y);
+    }
+    ctx.closePath();
+
+    let gradient = ctx.createRadialGradient(0,0,10,0,0,120);
+    gradient.addColorStop(0,"#ff66b2");
+    gradient.addColorStop(1,"#ff1493");
+
+    ctx.fillStyle = gradient;
+    ctx.shadowColor = "#ff1493";
+    ctx.shadowBlur = 40;
+    ctx.fill();
+
+    ctx.restore();
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>

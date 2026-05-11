@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <title>Myanmar Flag with Accurate SVG Star</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* အလံအခြေခံ (အချိုးအစား ၆:၉) */
+        .myanmar-flag {
+            width: 450px;
+            height: 300px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* အရောင် ၃ ရောင် */
+        .stripe {
+            height: 33.33%;
+            width: 100%;
+        }
+
+        .yellow { background-color: #fecb00; } /* အဝါရောင် */
+        .green  { background-color: #34b233; } /* အစိမ်းရောင် */
+        .red    { background-color: #ea2839; } /* အနီရောင် */
+
+        /* SVG ကြယ်ဖြူ - ပုံပါအတိုင်း တိကျသော ငါးထောင့်ကြယ်ပုံစံ */
+        .flag-star-svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* ကြယ်ကို အလယ်ဗဟိုညှိခြင်း */
+            width: 45%; /* ကြယ်အကျယ် (အလံအကျယ်၏ ၄၅%) */
+            height: auto;
+            z-index: 10;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="myanmar-flag">
+        <div class="stripe yellow"></div>
+        <div class="stripe green"></div>
+        <div class="stripe red"></div>
+        
+        <svg class="flag-star-svg" viewBox="0 0 572 545">
+            <path fill="#ffffff" d="M286 0 l88 179 l198 29 l-143 140 l34 197 l-177 -93 l-177 93 l34 -197 l-143 -140 l198 -29 z"/>
+        </svg>
+    </div>
+
+</body>
+</html>

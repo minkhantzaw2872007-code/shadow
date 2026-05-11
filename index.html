@@ -1,68 +1,134 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow Projects</title>
+    <title>Modern Login Box</title>
+    
+    <!-- CSS (အလှဆင်ခြင်းအပိုင်း) -->
     <style>
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            padding: 20px; 
-            background-color: #000000; 
-            color: #ffffff; 
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 350px;
             text-align: center;
         }
-        h1 { color: #ffcc00; margin-bottom: 30px; }
-        .list-container {
-            max-width: 500px;
-            margin: 0 auto;
+
+        .login-card h2 {
+            margin-bottom: 25px;
+            color: #333;
         }
-        .link-card { 
-            background: #1a1a1a; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border-radius: 8px; 
-            border: 1px solid #333;
-            transition: 0.3s;
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
             display: block;
-            text-decoration: none;
-            color: #ffcc00;
-            font-size: 18px;
-            font-weight: bold;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
         }
-        .link-card:hover { 
-            background: #ffcc00; 
-            color: #000; 
-            transform: scale(1.05);
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 5px rgba(118, 75, 162, 0.3);
+        }
+
+        #loginBtn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #764ba2;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        #loginBtn:hover {
+            background: #5a3682;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Shadow Project List</h1>
-
-    <div class="list-container" id="file-list">
+    <div class="login-card">
+        <h2>အကောင့်ဝင်ရန်</h2>
+        
+        <div class="input-group">
+            <label for="username">အသုံးပြုသူအမည်</label>
+            <input type="text" id="username" placeholder="Username ရိုက်ထည့်ပါ">
         </div>
 
+        <div class="input-group">
+            <label for="password">လျှို့ဝှက်နံပါတ်</label>
+            <input type="password" id="password" placeholder="Password ရိုက်ထည့်ပါ">
+        </div>
+
+        <button id="loginBtn">Login ဝင်မည်</button>
+        
+        <p id="message"></p>
+    </div>
+
+    <!-- JavaScript (လုပ်ဆောင်ချက်အပိုင်း) -->
     <script>
-        // --- ဒီနေရာမှာ သင့်ဖိုင်နာမည်တွေကို ရေးထည့်ပါ ---
-        // ဥပမာ- "heart.html" ရှိရင် "heart" လို့ ထည့်ပါ
-        const projects = [
-            "heart", 
-            "test",
-            "animation"
-        ]; 
+        const loginBtn = document.getElementById('loginBtn');
+        const message = document.getElementById('message');
 
-        const container = document.getElementById('file-list');
+        loginBtn.addEventListener('click', function() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
 
-        projects.forEach(projectName => {
-            const a = document.createElement('a');
-            a.className = 'link-card';
-            a.href = projectName + ".html"; // ဖိုင်လမ်းကြောင်းချိတ်မယ်
-            a.textContent = projectName.toUpperCase(); // စာလုံးကြီးနဲ့ ပြမယ်
-            
-            container.appendChild(a);
+            // ရိုးရှင်းတဲ့ စစ်ဆေးမှုပြုလုပ်ခြင်း
+            if (user === "" || pass === "") {
+                message.innerText = "⚠️ ကျေးဇူးပြု၍ အချက်အလက်အပြည့်အစုံဖြည့်ပါ။";
+                message.style.color = "red";
+            } else if (user === "admin" && pass === "12345") {
+                message.innerText = "✅ Login အောင်မြင်ပါသည်။";
+                message.style.color = "green";
+                // ဒီနေရာမှာ နောက် Page တစ်ခုကို လွှတ်ချင်ရင် window.location.href = "home.html"; လို့ရေးလို့ရပါတယ်။
+            } else {
+                message.innerText = "❌ အသုံးပြုသူအမည် သို့မဟုတ် လျှို့ဝှက်နံပါတ် မှားယွင်းနေပါသည်။";
+                message.style.color = "red";
+            }
         });
     </script>
+
 </body>
 </html>
