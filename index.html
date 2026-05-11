@@ -3,68 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow Projects List</title>
+    <title>Shadow Projects</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background-color: #1a1a1a; color: white; }
-        h2 { border-bottom: 2px solid #ffcc00; padding-bottom: 10px; color: #ffcc00; }
-        #file-list { margin-top: 20px; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            padding: 20px; 
+            background-color: #000000; 
+            color: #ffffff; 
+            text-align: center;
+        }
+        h1 { color: #ffcc00; margin-bottom: 30px; }
+        .list-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
         .link-card { 
-            background: #2d2d2d; padding: 15px 25px; margin: 12px 0; 
-            border-radius: 10px; transition: 0.3s;
-            display: flex; align-items: center; border-left: 5px solid #ffcc00;
+            background: #1a1a1a; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            border: 1px solid #333;
+            transition: 0.3s;
+            display: block;
+            text-decoration: none;
+            color: #ffcc00;
+            font-size: 18px;
+            font-weight: bold;
         }
-        .link-card a { 
-            text-decoration: none; color: #ffffff; font-size: 18px;
-            text-transform: capitalize; width: 100%;
+        .link-card:hover { 
+            background: #ffcc00; 
+            color: #000; 
+            transform: scale(1.05);
         }
-        .link-card:hover { transform: translateX(10px); background: #3d3d3d; }
-        .loading { font-style: italic; color: #888; }
     </style>
 </head>
 <body>
 
-    <h2>📁 My Shadow Projects</h2>
-    <div id="file-list" class="loading">ဖိုင်များကို ရှာဖွေနေပါသည်...</div>
+    <h1>Shadow Project List</h1>
+
+    <div class="list-container" id="file-list">
+        </div>
 
     <script>
-        // သင့်ရဲ့ အချက်အလက်များ
-        const username = "minkhantzaw2872007-code";
-        const repo = "shadow";
-        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/`;
+        // --- ဒီနေရာမှာ သင့်ဖိုင်နာမည်တွေကို ရေးထည့်ပါ ---
+        // ဥပမာ- "heart.html" ရှိရင် "heart" လို့ ထည့်ပါ
+        const projects = [
+            "heart", 
+            "test",
+            "animation"
+        ]; 
 
-        async function getFiles() {
-            try {
-                const response = await fetch(apiUrl);
-                const files = await response.json();
-                const container = document.getElementById('file-list');
-                container.innerHTML = ""; // loading စာသားကို ဖျက်မယ်
+        const container = document.getElementById('file-list');
 
-                files.forEach(file => {
-                    // .html နဲ့ဆုံးပြီး index.html မဟုတ်တဲ့ ဖိုင်တွေကိုပဲ ယူမယ်
-                    if (file.name.endsWith('.html') && file.name !== 'index.html') {
-                        const div = document.createElement('div');
-                        div.className = 'link-card';
-
-                        const a = document.createElement('a');
-                        // GitHub Pages path အတိုင်း link ချိတ်မယ်
-                        a.href = `https://${username}.github.io/${repo}/${file.name}`;
-                        a.textContent = file.name.replace('.html', '').replace(/-/g, ' ');
-
-                        div.appendChild(a);
-                        container.appendChild(div);
-                    }
-                });
-
-                if(container.innerHTML === "") {
-                    container.innerHTML = "HTML ဖိုင်များ မတွေ့ရှိပါ။";
-                }
-            } catch (error) {
-                document.getElementById('file-list').innerHTML = "Error: ဖိုင်များ ဆွဲယူ၍ မရပါ။";
-            }
-        }
-
-        getFiles();
+        projects.forEach(projectName => {
+            const a = document.createElement('a');
+            a.className = 'link-card';
+            a.href = projectName + ".html"; // ဖိုင်လမ်းကြောင်းချိတ်မယ်
+            a.textContent = projectName.toUpperCase(); // စာလုံးကြီးနဲ့ ပြမယ်
+            
+            container.appendChild(a);
+        });
     </script>
 </body>
 </html>
-
